@@ -30,8 +30,8 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.google.common.base.Optional;
 
 /**
- * This chain searches for AWS credentials in system properties -> environment variables -> ~/.m2/settings.xml 
- * -> AWS Configuration Profile -> Amazon's EC2 Container Service/EC2 Instance Metadata Service
+ * This chain searches for AWS credentials in system properties -&gt; environment variables -&gt; ~/.m2/settings.xml
+ * -&gt; AWS Configuration Profile -&gt; Amazon's EC2 Container Service/EC2 Instance Metadata Service
  */
 public final class MavenAwsCredentialsProviderChain extends AWSCredentialsProviderChain {
 

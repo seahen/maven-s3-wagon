@@ -79,8 +79,6 @@ import com.google.common.base.Optional;
  * This implementation uses the <code>username</code> and <code>password</code> portions of the server authentication metadata for credentials.
  * </p>
  * 
- * @plexus.component role="org.apache.maven.wagon.Wagon" role-hint="http" instantiation-strategy="per-lookup"
- * 
  * @author Ben Hale
  * @author Jeff Caddel
  */
@@ -143,6 +141,9 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 
 	/**
 	 * Establish that we have enough permissions on this bucket to do what we need to do
+	 * 
+	 * @param client S3 Client
+	 * @param bucketName AWS S3 Bucket Name.
 	 */
 	protected void validatePermissions(AmazonS3Client client, String bucketName) {
 		// This establishes our ability to list objects in this bucket
@@ -317,7 +318,10 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 	/**
 	 * Normalize the key to our S3 object:<br>
 	 * Convert <code>./css/style.css</code> into <code>/css/style.css</code><br>
-	 * Convert <code>/foo/bar/../../css/style.css<code> into <code>/css/style.css</code><br>
+	 * Convert <code>/foo/bar/../../css/style.css</code> into <code>/css/style.css</code><br>
+	 * 
+	 * @param key S3 Key string.
+	 * @return Normalized version of {@code key}.
 	 */
 	protected String getCanonicalKey(String key) {
 		// release/./css/style.css
@@ -380,7 +384,12 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 	}
 
 	/**
-	 * Create a PutObjectRequest based on the source file and destination passed in
+	 * Create a PutObjectRequest based on the source file and destination passed in.
+	 * 
+	 * @param source Local file to upload.
+	 * @param destination Destination S3 key.
+	 * @param progress Transfer listener.
+	 * @return {@link PutObjectRequest} instance.
 	 */
 	protected PutObjectRequest getPutObjectRequest(File source, String destination, TransferProgress progress) {
 		try {
@@ -489,9 +498,12 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 	}
 
 	/**
-	 * Convert "/" -> ""<br>
-	 * Convert "/snapshot/" -> "snapshot/"<br>
-	 * Convert "/snapshot" -> "snapshot/"<br>
+	 * Convert "/" -&gt; ""<br>
+	 * Convert "/snapshot/" &gt; "snapshot/"<br>
+	 * Convert "/snapshot" -&gt; "snapshot/"<br>
+	 * 
+	 * @param source Repository info.
+	 * @return Normalized repository base dir.
 	 */
 	protected String getBaseDir(final Repository source) {
 		StringBuilder sb = new StringBuilder(source.getBasedir());
@@ -508,6 +520,9 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 	/**
 	 * Create AWSCredentionals from the information in system properties, environment variables, settings.xml, or EC2 instance metadata (only applicable when running the wagon on
 	 * an Amazon EC2 instance)
+	 * 
+	 * @param authenticationInfo Authentication credentials from Maven settings.
+	 * @return Resolved AWS Credentials.
 	 */
 	protected AWSCredentials getCredentials(final AuthenticationInfo authenticationInfo) {
 		Optional<AuthenticationInfo> auth = Optional.fromNullable(authenticationInfo);
