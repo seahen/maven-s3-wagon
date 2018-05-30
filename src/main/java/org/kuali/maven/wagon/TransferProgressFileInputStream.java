@@ -17,10 +17,9 @@ package org.kuali.maven.wagon;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import com.amazonaws.services.s3.internal.RepeatableFileInputStream;
+import com.amazonaws.internal.ResettableInputStream;
 
 /**
  * An extension to the {@link FileInputStream} that notifies a @{link TransferProgress} object as it is being read from
@@ -28,11 +27,11 @@ import com.amazonaws.services.s3.internal.RepeatableFileInputStream;
  * @author Ben Hale
  * @since 1.1
  */
-public class TransferProgressFileInputStream extends RepeatableFileInputStream {
+public class TransferProgressFileInputStream extends ResettableInputStream {
 
     private TransferProgress progress;
 
-    public TransferProgressFileInputStream(File file, TransferProgress progress) throws FileNotFoundException {
+    public TransferProgressFileInputStream(File file, TransferProgress progress) throws IOException {
         super(file);
         this.progress = progress;
     }
