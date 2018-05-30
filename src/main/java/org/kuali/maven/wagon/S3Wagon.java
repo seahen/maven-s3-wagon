@@ -51,9 +51,9 @@ import com.amazonaws.Protocol;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProviderChain;
 import com.amazonaws.auth.AWSSessionCredentials;
+import com.amazonaws.internal.ResettableInputStream;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.internal.Mimetypes;
-import com.amazonaws.services.s3.internal.RepeatableFileInputStream;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
@@ -62,6 +62,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.google.common.base.Optional;
 
 /**
@@ -191,7 +192,7 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 
 		AWSCredentials credentials = getCredentials(auth);
 		this.client = getAmazonS3Client(credentials);
-		this.transferManager = new TransferManager(credentials);
+		this.transferManager = TransferManagerBuilder.standard().withS3Client(this.client).build();
 		this.bucketName = source.getHost();
 		validateBucket(client, bucketName);
 		this.basedir = getBaseDir(source);
@@ -370,9 +371,9 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 		return getPutObjectRequest(source, destination, progress);
 	}
 
-	protected InputStream getInputStream(File source, TransferProgress progress) throws FileNotFoundException {
+	protected InputStream getInputStream(File source, TransferProgress progress) throws IOException {
 		if (progress == null) {
-			return new RepeatableFileInputStream(source);
+			return new ResettableInputStream(source);
 		} else {
 			return new TransferProgressFileInputStream(source, progress);
 		}
@@ -393,6 +394,8 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 			return request;
 		} catch (FileNotFoundException e) {
 			throw new AmazonServiceException("File not found", e);
+		} catch (IOException e) {
+			throw new AmazonServiceException("Error reading file", e);
 		}
 	}
 

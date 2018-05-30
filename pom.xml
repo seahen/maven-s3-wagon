@@ -53,6 +53,21 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<!-- At least for right now we have to lock in AWS SDK version. The reason 
+		is that kuali-s3 depends on an old version, and if it is allowed to take 
+		precedence, the newer versions we use for authorization will fail. So keep 
+		this here until we can stop using kuali-s3. -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk</artifactId>
+				<version>${aws.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
