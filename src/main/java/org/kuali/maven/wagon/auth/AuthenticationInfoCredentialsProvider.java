@@ -1,5 +1,6 @@
 /**
  * Copyright 2010-2015 The Kuali Foundation
+ * Copyright 2018 Sean Hennessey
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +16,7 @@
  */
 package org.kuali.maven.wagon.auth;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.maven.wagon.authentication.AuthenticationInfo;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -24,7 +26,9 @@ import com.google.common.base.Optional;
 public final class AuthenticationInfoCredentialsProvider implements AWSCredentialsProvider {
 
 	public AuthenticationInfoCredentialsProvider(Optional<AuthenticationInfo> auth) {
-		Assert.notNull(auth);
+		if (auth == null) {
+			throw new IllegalArgumentException("auth must not be null");
+		}
 		this.auth = auth;
 	}
 
@@ -36,7 +40,9 @@ public final class AuthenticationInfoCredentialsProvider implements AWSCredentia
 		}
 		String accessKey = auth.get().getUserName();
 		String secretKey = auth.get().getPassword();
-		Assert.noBlanksWithMsg(getAuthenticationErrorMessage(), accessKey, secretKey);
+		if (StringUtils.isBlank(accessKey) || StringUtils.isBlank(secretKey)) {
+			throw new IllegalArgumentException(getAuthenticationErrorMessage());
+		}
 		return new AwsCredentials(accessKey, secretKey);
 	}
 

@@ -1,5 +1,6 @@
 /**
  * Copyright 2010-2015 The Kuali Foundation
+ * Copyright 2018 Sean Hennessey
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +16,8 @@
  */
 package org.kuali.maven.wagon.auth;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.amazonaws.auth.AWSCredentials;
 
 /**
@@ -27,7 +30,9 @@ public final class AwsCredentials implements AWSCredentials {
 	}
 
 	public AwsCredentials(String accessKey, String secretKey) {
-		Assert.noBlanks(accessKey, secretKey);
+		if (StringUtils.isBlank(accessKey) || StringUtils.isBlank(secretKey)) {
+			throw new IllegalArgumentException();
+		}
 		this.accessKey = accessKey;
 		this.secretKey = secretKey;
 	}
