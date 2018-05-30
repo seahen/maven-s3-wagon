@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/seahen/maven-s3-wagon.svg?branch=master)](https://travis-ci.org/seahen/maven-s3-wagon)
+[![Build Status](https://travis-ci.com/seahen/maven-s3-wagon.svg?branch=master)](https://travis-ci.com/seahen/maven-s3-wagon)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.seahen/maven-s3-wagon.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.seahen/maven-s3-wagon/)
-[![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.github.seahen/maven-s3-wagon/badge.svg)](https://www.javadoc.io/doc/com.github.seahen/maven-s3-wagon)
+[![javadoc.io](https://javadocio-badges.herokuapp.com/com.github.seahen/maven-s3-wagon/badge.svg)](https://www.javadoc.io/doc/com.github.seahen/maven-s3-wagon)
 [![license](https://img.shields.io/github/license/seahen/maven-s3-wagon.svg)]()
     
 

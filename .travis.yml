@@ -4,3 +4,8 @@ jdk:
   - oraclejdk8
   - openjdk8
   - openjdk7
+# So we don't get double-builds on PRs
+branches:
+  only:
+    - master
+    - /release-.*/
