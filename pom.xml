@@ -39,6 +39,7 @@
 		<kuali-s3.version>1.0.1</kuali-s3.version>
 		<junit.version>4.11</junit.version>
 		<guava.version>15.0</guava.version>
+		<jaxb.version>2.3.2</jaxb.version>
 	</properties>
 	<build>
 		<plugins>
@@ -126,6 +127,11 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		<dependency>
+                        <groupId>jakarta.xml.bind</groupId>
+                        <artifactId>jakarta.xml.bind-api</artifactId>
+                        <version>${jaxb.version}</version>
+                </dependency>
 	</dependencies>
 	<scm>
 		<connection>scm:git:https://github.com/seahen/maven-s3-wagon.git</connection>
