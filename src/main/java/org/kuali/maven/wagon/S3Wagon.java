@@ -235,12 +235,13 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 			throw new ResourceDoesNotExistException("Resource " + resourceName + " does not exist in the repository", e);
 		}
 
-		//
+		// first write the file to a temporary location
+		File temporaryDestination = File.createTempFile(destination.getName() , ".tmp",destination.getParentFile());
 		InputStream in = null;
 		OutputStream out = null;
 		try {
 			in = object.getObjectContent();
-			out = new TransferProgressFileOutputStream(destination, progress);
+			out = new TransferProgressFileOutputStream(temporaryDestination, progress);
 			byte[] buffer = new byte[1024];
 			int length;
 			while ((length = in.read(buffer)) != -1) {
@@ -250,6 +251,8 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 			IOUtils.closeQuietly(in);
 			IOUtils.closeQuietly(out);
 		}
+		// then move, to have an atomic operation to guarantee we don't have a partially downloaded file on disk
+		temporaryDestination.renameTo(destination);
 	}
 
 	/**
