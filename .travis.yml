@@ -2,7 +2,8 @@ language: java
 dist: trusty
 jdk:
   - oraclejdk8
-  - openjdk8
+  - oraclejdk9
+  - oraclejdk11
   - openjdk7
 # So we don't get double-builds on PRs
 branches:
