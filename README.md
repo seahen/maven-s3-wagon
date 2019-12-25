@@ -79,7 +79,7 @@ The wagon supports 4 methods for authenticating with Amazon S3.
 
 1 - System Properties: `aws.accessKeyId` + `aws.secretKey`
 
-2 - Environment Variables: `AWS_ACCESS_KEY_ID` + `AWS_SECRET_KEY`
+2 - Environment Variables: `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`
 
 3 - Entries in `~/.m2/settings.xml`
 
