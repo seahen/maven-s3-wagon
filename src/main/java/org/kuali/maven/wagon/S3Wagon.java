@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -252,7 +253,9 @@ public class S3Wagon extends AbstractWagon implements RequestFactory {
 			IOUtils.closeQuietly(out);
 		}
 		// then move, to have an atomic operation to guarantee we don't have a partially downloaded file on disk
-		temporaryDestination.renameTo(destination);
+		Files
+				.move(temporaryDestination.toPath(), destination.toPath(),
+						java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	/**
