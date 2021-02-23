@@ -19,7 +19,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.seahen</groupId>
   <artifactId>maven-s3-wagon</artifactId>
-  <version>1.3.2</version>
+  <version>1.3.3-SNAPSHOT</version>
   <name>Maven S3 Wagon</name>
   <inceptionYear>2010</inceptionYear>
   <description>
@@ -136,7 +136,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/seahen/maven-s3-wagon.git</connection>
 		<url>https://github.com/seahen/maven-s3-wagon</url>
-	  <tag>maven-s3-wagon-1.3.2</tag>
+	  <tag>HEAD</tag>
   </scm>
 	<licenses>
 		<license>
