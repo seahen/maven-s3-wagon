@@ -26,6 +26,7 @@ import com.amazonaws.auth.AWSCredentialsProviderChain;
 import com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper;
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider;
+import com.amazonaws.auth.WebIdentityTokenCredentialsProvider;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.google.common.base.Optional;
 
@@ -47,6 +48,9 @@ public final class MavenAwsCredentialsProviderChain extends AWSCredentialsProvid
 
 		// Then fall through to environment variables
 		providers.add(new EnvironmentVariableCredentialsProvider());
+
+		// Then fall through to IAM roles for service accounts (IRSA)
+		providers.add(WebIdentityTokenCredentialsProvider.create());
 
 		// Then fall through to settings.xml
 		providers.add(new AuthenticationInfoCredentialsProvider(auth));

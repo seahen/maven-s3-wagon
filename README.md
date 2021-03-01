@@ -75,13 +75,15 @@ If things are setup correctly, `$ mvn deploy` will produce output similar to thi
 
 
 ## Authentication
-The wagon supports 4 methods for authenticating with Amazon S3.
+The wagon supports multiple methods for authenticating with Amazon S3.
 
 1 - System Properties: `aws.accessKeyId` + `aws.secretKey`
 
 2 - Environment Variables: `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`
 
-3 - Entries in `~/.m2/settings.xml`
+3 - IAM roles for service accounts (IRSA): see [AWS EKS User Guide - IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) for more information
+
+4 - Entries in `~/.m2/settings.xml`
 
     <servers>
       <server>
@@ -91,11 +93,11 @@ The wagon supports 4 methods for authenticating with Amazon S3.
       </server>
     </servers>
 
-4 - The default AWS credential profiles file: typically located at `~/.aws/credentials` (location can vary per platform), and shared by many of the AWS SDKs and by the AWS CLI.
+5 - The default AWS credential profiles file: typically located at `~/.aws/credentials` (location can vary per platform), and shared by many of the AWS SDKs and by the AWS CLI.
 
-5 - Amazon ECS container credentials: loaded from the Amazon ECS if the environment variable AWS_CONTAINER_CREDENTIALS_RELATIVE_URI is set.
+6 - Amazon ECS container credentials: loaded from the Amazon ECS if the environment variable AWS_CONTAINER_CREDENTIALS_RELATIVE_URI is set.
 
-6 - Instance profile credentials: used on EC2 instances, and delivered through the Amazon EC2 metadata service.
+7 - Instance profile credentials: used on EC2 instances, and delivered through the Amazon EC2 metadata service.
 
 The priority used when searching for credentials is the same as the order listed on this page.  For example, if a set of credentials is found in the system properties, the next three areas are never checked.  If no credentials can be found, an exception is thrown.l
 
