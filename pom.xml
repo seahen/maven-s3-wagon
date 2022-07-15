@@ -35,7 +35,7 @@
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<slf4j.version>1.7.5</slf4j.version>
-		<aws.version>1.11.781</aws.version>
+		<aws.version>1.12.261</aws.version>
 		<kuali-s3.version>1.0.1</kuali-s3.version>
 		<junit.version>4.13.1</junit.version>
 		<guava.version>15.0</guava.version>
